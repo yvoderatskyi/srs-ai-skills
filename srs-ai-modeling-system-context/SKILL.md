@@ -1,74 +1,54 @@
 ---
 name: srs-ai-modeling-system-context
-description: Use when defining system context, boundaries, actors, external systems, context data flows, or DOT context diagrams
+description: Use when defining a system boundary, classifying actors and external systems, mapping boundary data flows, or drawing DOT context diagrams
 ---
 
 # Modeling System Context
 
-Use this skill to model what is inside the system under discussion and what interacts with it from outside. Keep the output at context level, not internal architecture level.
-Keep the trace chain visible from boundary item to classification, flow, and diagram.
+Model what lies inside the system boundary and what interacts with it from outside. Keep the trace chain visible from source and boundary item to classification, data flow, and DOT diagram.
 
-## Material Gaps
-
-When material ambiguity or conflicting terminology blocks this artifact, use `grill-with-docs` for the interview. Read `srs-ai-resolving-requirements-gaps` for the requirements ledger and handoff rules alongside it. Pass existing gap IDs, evidence, and affected artifact IDs; reuse resolved answers. After the interview, resume this skill's output and quality gate. Sufficient inputs proceed directly; persisted records supplement the response format below.
-
-## Core Rules
-
-- State the explicit system boundary before writing tables or diagrams.
-- Classify every named item as one of: actor, external system, internal component, inside-scope capability, out-of-scope item, or unresolved boundary item.
-- Determine each item’s position relative to the declared boundary before assigning its classification. APIs, databases, services, and similar technical items can be internal components or external systems; use `unresolved boundary item` when ownership or placement is uncertain.
-- Include external systems named or implied by integrations, upstream data, downstream data, identity, payment, messaging, documents, analytics, compliance, storage, or support workflows.
-- Capture input and output data flow across the boundary.
-- Produce the context diagram in DOT.
-- List unresolved boundary questions instead of hiding ambiguity.
+**Material gaps:** When material ambiguity or conflicting terms block this artifact, invoke `grill-with-docs` alongside `srs-ai-resolving-requirements-gaps` to update the context ledger (pass gap/artifact IDs and evidence; reuse resolved answers; resume here after). Sufficient inputs proceed directly; persisted records supplement the response format below.
 
 ## Required Output
 
-Produce these sections in order:
+Produce these five sections in order:
 
-1. System Boundary
-2. Classification Table
-3. Input/Output Data-Flow Table
-4. DOT Context Diagram
-5. Unresolved Boundary Questions
+### 1. System Boundary
 
-## System Boundary
+Name the system and state what is inside the boundary in one or two sentences before writing tables or diagrams. When the prompt implies multiple boundaries, choose the smallest useful boundary, mark that choice as a provisional assumption, and list the alternatives in Unresolved Boundary Questions.
 
-Name the system and state what is inside the boundary in one or two sentences. If the prompt implies multiple possible boundaries, choose the smallest useful boundary, mark that choice as provisional, and list alternatives in unresolved boundary questions.
+### 2. Classification Table
 
-## Classification Table
+Account for every named item and every external system implied by integrations, upstream/downstream data, identity, payment, messaging, documents, analytics, compliance, storage, or support workflows. Determine each item's position relative to the declared boundary first:
 
 | Item | Classification | Inside boundary? | Reason |
 | --- | --- | --- | --- |
 
-Classification values:
+Allowed `Classification` values:
 - `actor`: external person, role, group, organization, or team that uses, operates, approves, or is affected by the system.
-- `external system`: software, hardware, service, platform, data source, or data destination outside the boundary.
-- `internal component`: implementation part inside the system; exclude from context diagram.
-- `inside-scope capability`: behavior owned by the modeled system but not a separate actor or external system.
+- `external system`: software, hardware, service, API, database, platform, data source, or data destination outside the boundary.
+- `internal component`: implementation part (service, queue, worker, API, database) inside the boundary; omit from the context diagram.
+- `inside-scope capability`: behavior owned by the modeled system.
 - `out-of-scope item`: known item intentionally outside the modeled context.
-- `unresolved boundary item`: item that needs confirmation before it can be placed.
+- `unresolved boundary item`: item whose ownership or boundary placement is uncertain and requires confirmation.
 
-## Input/Output Data-Flow Table
+### 3. Input/Output Data-Flow Table
+
+Capture every boundary-crossing data flow between the system and each actor or external system:
 
 | Source | Target | Direction | Data flow | Trigger or frequency | Notes |
 | --- | --- | --- | --- | --- | --- |
 
-Rules:
-- Include each actor and external system that exchanges data with the system.
-- Use `input`, `output`, or `bidirectional` from the system's perspective.
-- Name business data, commands, events, documents, notifications, or decisions, not protocol details unless required.
-- Mark unknown flows as questions in the notes and repeat them in unresolved boundary questions.
+- Set `Direction` to `input`, `output`, or `bidirectional` from the system's perspective.
+- Name business data, commands, events, documents, notifications, or decisions (include protocol details only when required by a constraint).
+- Mark uncertain flows as questions in `Notes` and repeat them in Unresolved Boundary Questions.
 
-## DOT Context Diagram
+### 4. DOT Context Diagram
 
-Output a DOT diagram with:
-- one cluster or clearly labeled node for the system boundary;
-- actors and external systems outside that boundary;
-- arrows labeled with data flows;
-- internal components omitted; show uncertain placement only as an explicitly labeled unresolved boundary item.
-
-Use this shape convention when possible:
+Output a DOT diagram showing only boundary-crossing interactions:
+- One cluster (`cluster_system`) for the system boundary.
+- Actors and external systems outside the cluster; omit internal components, and show uncertain placement only as an explicitly labeled `unresolved boundary item`.
+- Directed edges labeled with the data flows from the table.
 
 ```dot
 digraph context {
@@ -88,6 +68,10 @@ digraph context {
 }
 ```
 
-## Quality Check
+### 5. Unresolved Boundary Questions
 
-Before returning, account for every named or integration-implied item in the classification table. Apply the boundary and classification rules, reconcile every diagram node and edge with the tables, and record each uncertain placement or flow in Unresolved Boundary Questions (or write `None`).
+List every uncertain boundary placement, ownership question, or unconfirmed flow (or write `None`).
+
+## Quality Gate
+
+Before returning, verify that every named or integration-implied item is classified relative to the declared boundary, every diagram node and edge reconciles with the Classification and Data-Flow tables, internal components are excluded from the diagram, and all uncertain placements or flows appear in Unresolved Boundary Questions.
