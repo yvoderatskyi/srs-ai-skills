@@ -5,7 +5,11 @@ description: Use when clarifying vague business ideas, stakeholder requests, goa
 
 # Eliciting Business Requirements
 
-Use this skill to turn uncertain business input into validated business requirements. Do not generate final requirements from a vague phrase until the missing business context is exposed.
+Use this skill to turn uncertain business input into validated business requirements. Use the branch selection below to determine the deliverable.
+
+## Material Gaps
+
+When material ambiguity or conflicting terminology blocks this artifact, use `grill-with-docs` for the interview. Read `srs-ai-resolving-requirements-gaps` for the requirements ledger and handoff rules alongside it. Pass existing gap IDs, evidence, and affected artifact IDs; reuse resolved answers. After the interview, resume this skill's output and quality gate. Sufficient inputs proceed directly; persisted records supplement the response format below.
 
 ## Required Extraction
 
@@ -23,7 +27,7 @@ Extract and maintain these fields:
 
 ## Clarification First
 
-Before generating requirements, ask focused clarification questions when any required extraction field is missing, vague, or uncertain. Prefer small question sets that can change the requirements:
+Extract available evidence first, then use small question sets to resolve material gaps:
 
 | Topic | Example questions |
 | --- | --- |
@@ -33,13 +37,14 @@ Before generating requirements, ask focused clarification questions when any req
 | Constraint | What deadlines, systems, policies, budgets, or legal limits are already fixed? |
 | Risk | What could make these requirements wrong or unusable? |
 
-If stakeholder access is limited, say so explicitly and continue with provisional analysis only. Mark every inferred answer as an assumption and list what must be confirmed later.
+Select one branch after extraction:
 
-If required fields are materially missing, stop after Known Context, Focused Questions, and Assumptions and Risks. Do not draft requirements until answers are provided or the user explicitly authorizes provisional requirements.
+- **Clarification:** material inputs remain missing or uncertain and provisional drafting is not authorized. Return only Known Context, Focused Questions, and Assumptions and Risks. Account for every extraction field as known, unknown, or not applicable with a reason; ask about material unknowns. This branch completes when the gaps and confirmation needs are explicit.
+- **Drafting:** available evidence resolves material gaps, or the user has explicitly authorized provisional requirements. Use the full output below. Mark inferred answers and unresolved decisions as assumptions; identify unavailable stakeholders and the confirmation needed. Authorization to draft does not confirm assumptions.
 
 ## Output Format
 
-Produce these sections in order. Use the full format, including Draft Business Requirements, only after answers are provided or the user explicitly authorizes provisional requirements:
+For the drafting branch, produce these sections in order. Use `None` for Focused Questions when the supplied evidence is sufficient:
 
 1. Known Context
 2. Focused Questions
@@ -58,12 +63,10 @@ Keep the trace chain visible from question to conclusion to requirement.
 
 ## Business Requirements Rules
 
-- Write requirements only after questions and the Q/A/conclusion table.
-- Do not draft requirements from vague input when material fields are missing unless the user explicitly authorizes provisional requirements.
 - Keep requirements at the business level: outcomes, policies, decisions, constraints, and user/business capabilities.
 - Label likely goals as assumptions until confirmed.
 - Each requirement must link to a conclusion ID.
-- Each success criterion must be measurable with a metric, target, timeframe, and source or assumption.
+- Each success criterion must have a metric, target, timeframe, and source or assumption. For an unresolved field, record a linked question and mark the criterion provisional rather than inventing a value.
 - Preserve uncertainty rather than smoothing it into confident language.
 
 ## Minimal Requirement Template
@@ -78,10 +81,7 @@ Keep the trace chain visible from question to conclusion to requirement.
 
 ## Quality Check
 
-Before returning, verify:
+Validate the selected branch before returning:
 
-- Business problem, stakeholder groups, goals, constraints, success criteria, assumptions, and risks are present.
-- Clarification questions appear before draft requirements.
-- Q/A/conclusion table is present.
-- Success criteria are measurable.
-- Invented details are marked as assumptions.
+- Clarification: each extraction field has a disposition and every material unknown has a focused question or confirmation risk. Return the three clarification sections.
+- Drafting: the full output is present, every requirement traces through the Q/A/conclusion table, and all Business Requirements Rules hold.

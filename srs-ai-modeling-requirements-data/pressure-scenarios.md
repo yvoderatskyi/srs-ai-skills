@@ -34,8 +34,8 @@ Required correction in skill:
 - Require definitions for all domain terms, statuses, identifiers, and diagram labels.
 
 Pass criteria:
-- Glossary defines every domain term used in the data artifacts.
-- Uncertain definitions are marked as assumptions or unresolved questions.
+- The glossary section links canonical definitions for settled domain terms and unresolved questions for unsettled terms.
+- Uncertain definitions remain in the ledger and unresolved questions; only settled definitions enter the canonical glossary.
 - Data dictionary terms match the glossary names.
 
 ## RED Scenario 3: CRUD coverage omitted
@@ -68,7 +68,7 @@ Expected unskilled failure:
 
 Required correction in skill:
 - Require class diagrams and state diagrams only when they clarify reviewed requirements.
-- Require every relationship, state, guard, and transition to trace to a UC step, FR, rule, or data question.
+- Require every relationship, state, guard, and transition to trace to a supported UC step, FR, or rule; keep unsupported candidates in unresolved data questions.
 - Route unsupported diagram content to unresolved data questions.
 
 Pass criteria:

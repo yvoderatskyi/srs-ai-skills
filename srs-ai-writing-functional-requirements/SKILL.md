@@ -8,9 +8,13 @@ description: Use when writing or checking traceable functional requirements, FR 
 Use this skill to turn approved business context, system context, use-case notes, or stakeholder statements into traceable functional requirements. Keep requirements focused on observable system behavior.
 Keep the trace chain visible from source to FR to downstream use cases and data.
 
+## Material Gaps
+
+When material ambiguity or conflicting terminology blocks this artifact, use `grill-with-docs` for the interview. Read `srs-ai-resolving-requirements-gaps` for the requirements ledger and handoff rules alongside it. Pass existing gap IDs, evidence, and affected artifact IDs; reuse resolved answers. After the interview, resume this skill's output and quality gate. Sufficient inputs proceed directly; persisted records supplement the response format below.
+
 ## Required Inputs
 
-Use available source/context items such as stakeholder quotes, interview answers, business requirement IDs, context-model rows, use-case IDs, assumptions, or decisions. If source context is missing for a provisional FR, keep the trace field populated as `Missing - open issue OI-###` and list the open issue in Notes.
+Use available source/context items such as stakeholder quotes, interview answers, business requirement IDs, context-model rows, use-case IDs, assumptions, or decisions. Record open issues in Notes with their IDs and the missing source or decision.
 
 ## Output Format
 
@@ -54,11 +58,4 @@ Do not force every requirement into Given/When/Then syntax, but ensure each one 
 
 ## Quality Gate
 
-Before returning, verify:
-
-- Every FR has a stable FR ID.
-- Every FR has a source/context link or a `Missing - open issue OI-###` placeholder.
-- FRs are grouped by module, process, or role.
-- Every FR has a priority.
-- Every FR is testable and describes observable functional behavior.
-- Nonfunctional requirements are excluded from the FR table and preserved in `NFR Candidates` with source/context links.
+Before returning, apply FR Rules and the Testability Check to every row. Account for each supplied behavior as an FR or a reasoned open issue, and each supplied quality attribute as a linked NFR Candidate. Identify unresolved decisions in Notes.

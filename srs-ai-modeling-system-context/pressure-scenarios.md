@@ -49,3 +49,11 @@ Required correction in skill:
 - Skill requires an input/output data-flow table.
 - Skill requires DOT context diagram output with a clear boundary.
 - Skill requires unresolved boundary questions when scope is ambiguous.
+
+## Regression Scenario: External technical dependencies
+
+Prompt: "Model our checkout service. Stripe API and the retailer-owned inventory database are outside its boundary; our queue is inside."
+
+Pass criteria:
+- The API and inventory database are external systems; the queue is an internal component.
+- Only boundary-crossing flows appear in the context diagram.

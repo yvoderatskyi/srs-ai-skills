@@ -8,6 +8,10 @@ description: Use when modeling requirements data, glossaries, data dictionaries,
 Use this skill to turn approved use cases and requirements context into traceable requirements data artifacts. Do not invent entities, attributes, or states that are not supported by use-case steps, FRs, business rules, stakeholder terms, or explicit assumptions.
 Keep the trace chain visible from UC step to entity, attribute, CRUD rule, and diagram.
 
+## Material Gaps
+
+When material ambiguity or conflicting terminology blocks this artifact, use `grill-with-docs` for the interview. Read `srs-ai-resolving-requirements-gaps` for the requirements ledger and handoff rules alongside it. Pass existing gap IDs, evidence, and affected artifact IDs; reuse resolved answers. After the interview, resume this skill's output and quality gate. Sufficient inputs proceed directly; persisted records supplement the response format below.
+
 ## Required Inputs
 
 Use available UC details, FRs, actor model, business rules, glossary terms, workflow notes, and approved assumptions. If a data element lacks support, list it as an unresolved data question instead of filling it in.
@@ -25,7 +29,7 @@ Produce these sections in order:
 
 ## Glossary
 
-Define all domain terms used in entities, attributes, statuses, identifiers, business rules, and diagrams.
+Cover all domain terms used in entities, attributes, statuses, identifiers, business rules, and diagrams. Reuse the canonical project glossary (following `GLOSSARY-MAP.md` when present); the output Glossary section links it and the relevant terms. Resolve missing or conflicting meanings through the gap-resolution skill. For new settled terms, follow its Record Formats reference. Use the inline table below when file persistence is unavailable.
 
 | Term | Definition | Source |
 | --- | --- | --- |
@@ -33,7 +37,7 @@ Define all domain terms used in entities, attributes, statuses, identifiers, bus
 Rules:
 - Use stakeholder or requirements wording where available.
 - Do not leave key entity, attribute, status, or actor terms undefined.
-- If a definition is uncertain, mark the source as an assumption or unresolved question.
+- Keep uncertain definitions in the ledger and Unresolved Data Questions until resolved; link those questions from the glossary section rather than presenting proposed terms as canonical.
 
 ## Data Dictionary
 
@@ -70,7 +74,7 @@ Account for create, read, update, and delete/archive behavior by actor and use c
 Rules:
 - Use `yes`, `no`, or `unclear`.
 - Cover every entity from the data dictionary across relevant actors and use cases.
-- Treat missing delete/archive, retention, and correction rules as data questions, not silent omissions.
+- Record missing create, read, update, delete/archive, retention, correction, and ownership rules as data questions.
 - If an entity has no CRUD coverage, either remove it as unsupported or list the missing coverage question.
 
 ## Diagrams, If Justified
@@ -81,7 +85,7 @@ Rules:
 - Use a class diagram when relationships, multiplicity, ownership, or composition are important to validate.
 - Use a state diagram when lifecycle states, transitions, guards, or terminal outcomes are important to validate.
 - Do not include class or state diagrams as decoration.
-- Every diagram entity, relationship, state, and transition must trace to a UC step, FR, rule, or data question.
+- Every diagram entity, relationship, state, and transition must trace to a supported UC step, FR, or rule. Keep unsupported candidates in Unresolved Data Questions.
 - Do not invent relationships, lifecycle states, guards, or transitions to make a class diagram or state diagram look complete.
 
 ## Unresolved Data Questions
@@ -95,12 +99,4 @@ List every missing or conflicting data decision.
 
 ## Quality Gate
 
-Before returning, verify:
-
-- Glossary covers all domain terms used in the data dictionary, CRUD matrix, and diagrams.
-- Data dictionary includes every supported entity and attribute, with sources.
-- Every entity has source links to UC steps or an explicit approved non-UC source.
-- CRUD matrix accounts for each entity by relevant actor/use case.
-- Missing create, read, update, delete/archive, retention, correction, and ownership rules are listed as unresolved data questions.
-- Class diagram and state diagram outputs are included only when justified by requirements complexity.
-- Unsupported entities, attributes, relationships, states, and transitions are removed or routed to unresolved data questions.
+Before returning, apply each artifact section’s rules. Reconcile dictionary entities with source links and CRUD coverage, and reconcile all terms and diagram elements with the glossary and supported sources. Every missing or conflicting decision must have an Unresolved Data Questions row naming its location and clarification source.

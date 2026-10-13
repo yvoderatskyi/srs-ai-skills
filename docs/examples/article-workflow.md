@@ -127,3 +127,23 @@ Assemble the approved artifacts into an SRS outline.
 Then review for completeness, consistency, testability, traceability, and feasibility.
 Report missing sections, contradictions, unclear requirements, and open questions.
 ```
+
+## Worked Gap-Resolution Handoff
+
+During step 7, suppose the stakeholder says: "Reminder dispatch needs to be fast." The NFR skill finds that the target and load are missing and uses `grill-with-docs` as the interview step, loading its entrypoint and dependencies. Alongside it, `srs-ai-resolving-requirements-gaps` supplies the requirements ledger and handoff rules.
+
+First inspect the glossary and source material. If "dispatch" is undefined, ask what event completes dispatch before asking about its latency. Recommend provider acceptance as a measurable endpoint, explaining that patient delivery would need different evidence. The user settles the term as provider acceptance. Save that definition with its source in the canonical glossary immediately.
+
+Next ask for the target and load with a clearly provisional recommendation. The user answers:
+
+> p95 <= 60 seconds from scheduled send time to provider acceptance at 10,000 appointments/hour; exclude patient delivery latency. Verify with a load test.
+
+Save the answer in `docs/requirements/context-ledger.md` under a stable ID such as `Q-002`, with `resolution: resolved`, affected artifact `NFR-001`, and source pointing to the user's answer. The resulting artifact remains proposed until explicitly accepted. This ordinary decision needs no ADR unless all three ADR conditions hold.
+
+After the user confirms the shared understanding under the upstream interview rules, resume the NFR skill. This confirmation is separate from artifact approval. Its output preserves the answer:
+
+| NFR ID | Status | Quality category | Requirement | Threshold/metric | Operating context/environment | Source link | Verification method | Notes |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| NFR-001 | confirmed | Performance | Dispatch reminders from scheduled send time to provider acceptance within the stated threshold. | p95 <= 60 seconds | 10,000 appointments/hour | Q-002; dispatch definition from Q-001 | Load test | Excludes patient delivery latency; artifact approval pending |
+
+Here `confirmed` describes evidence for the NFR fields, not approval of the assembled artifact. Later SRS assembly carries the same percentile, bound, endpoints, load, exclusion, and source IDs forward. A resumed session reads these records rather than asking the same questions again. In a read-only session, return the equivalent records and say they have not been saved.

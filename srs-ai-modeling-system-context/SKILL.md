@@ -8,11 +8,15 @@ description: Use when defining system context, boundaries, actors, external syst
 Use this skill to model what is inside the system under discussion and what interacts with it from outside. Keep the output at context level, not internal architecture level.
 Keep the trace chain visible from boundary item to classification, flow, and diagram.
 
+## Material Gaps
+
+When material ambiguity or conflicting terminology blocks this artifact, use `grill-with-docs` for the interview. Read `srs-ai-resolving-requirements-gaps` for the requirements ledger and handoff rules alongside it. Pass existing gap IDs, evidence, and affected artifact IDs; reuse resolved answers. After the interview, resume this skill's output and quality gate. Sufficient inputs proceed directly; persisted records supplement the response format below.
+
 ## Core Rules
 
 - State the explicit system boundary before writing tables or diagrams.
 - Classify every named item as one of: actor, external system, internal component, inside-scope capability, out-of-scope item, or unresolved boundary item.
-- Classify APIs, workers, databases, queues, schedulers, services, and modules as internal components, not actors.
+- Determine each item’s position relative to the declared boundary before assigning its classification. APIs, databases, services, and similar technical items can be internal components or external systems; use `unresolved boundary item` when ownership or placement is uncertain.
 - Include external systems named or implied by integrations, upstream data, downstream data, identity, payment, messaging, documents, analytics, compliance, storage, or support workflows.
 - Capture input and output data flow across the boundary.
 - Produce the context diagram in DOT.
@@ -62,7 +66,7 @@ Output a DOT diagram with:
 - one cluster or clearly labeled node for the system boundary;
 - actors and external systems outside that boundary;
 - arrows labeled with data flows;
-- no internal components unless they are explicitly marked `unresolved` or `candidate internal component` to explain an unresolved boundary choice.
+- internal components omitted; show uncertain placement only as an explicitly labeled unresolved boundary item.
 
 Use this shape convention when possible:
 
@@ -86,11 +90,4 @@ digraph context {
 
 ## Quality Check
 
-Before returning, verify:
-
-- Boundary is explicit and visible before the diagram.
-- Actors are not confused with internal components.
-- External systems are present when integrations or data exchange imply them.
-- Every diagram edge has a matching row in the data-flow table.
-- DOT syntax is fenced as `dot`.
-- Unresolved boundary questions are listed, or the section says `None`.
+Before returning, account for every named or integration-implied item in the classification table. Apply the boundary and classification rules, reconcile every diagram node and edge with the tables, and record each uncertain placement or flow in Unresolved Boundary Questions (or write `None`).

@@ -29,15 +29,15 @@ Expected unskilled failure:
 - Provides verification ideas that cannot determine pass/fail.
 
 Required correction in skill:
-- Require a measurable threshold for every NFR.
+- Require a measurable threshold for every confirmed NFR; record missing candidate thresholds as open issues.
 - Require a verification method that can test or inspect the threshold.
 - Require source links and operating context, or mark missing inputs as open issues instead of inventing detached thresholds.
 
 Pass criteria:
-- Every NFR includes a metric and threshold, such as `p95 reminder dispatch latency <= 60 seconds for 10,000 appointments/hour`.
+- Every confirmed NFR includes a metric and threshold, such as `p95 reminder dispatch latency <= 60 seconds for 10,000 appointments/hour`.
 - Every NFR has a source link or `Missing - open issue OI-###`.
 - Every NFR states an operating context/environment or marks missing context with `Missing - open issue OI-###`.
-- Verification methods are concrete, such as load test, penetration test, accessibility audit, failover drill, log review, or contract test.
+- Confirmed NFR verification methods are concrete, such as load test, penetration test, accessibility audit, failover drill, log review, or contract test.
 
 ## RED Scenario 3: Detached from goals, constraints, and context
 
@@ -62,6 +62,15 @@ Pass criteria:
 
 - Skill frontmatter contains only `name` and `description`.
 - Skill description starts with `Use when`.
-- Skill requires NFR IDs, quality category, measurable threshold, operating context/environment, source link, and verification method.
+- Skill requires NFR IDs and quality category; confirmed rows have evidence-backed thresholds, context, sources, and verification methods, while provisional rows link unresolved fields to open issues.
 - Skill rejects vague quality terms unless converted into metrics.
 - Skill links NFRs to goals, constraints, risks, or usage context.
+
+## Regression Scenario: Known goal, unknown target
+
+Prompt: "BR-001 says login must be fast. No latency target or load is agreed. Write NFRs."
+
+Pass criteria:
+- The goal source remains BR-001, while the threshold and load remain provisional with linked open issues.
+- Any suggested numeric value is labeled as an assumption requiring confirmation.
+- No row is confirmed solely because the quality goal has a source.

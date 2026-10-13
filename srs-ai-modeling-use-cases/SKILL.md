@@ -8,6 +8,10 @@ description: Use when modeling actor-goal use cases, UC flows, FR coverage, gaps
 Use this skill to model actor goals and system responsibilities as traceable use cases. Keep use cases at goal level; do not turn UI clicks, screens, or implementation steps into use cases.
 Keep the trace chain visible from FR to UC to flow and diagram.
 
+## Material Gaps
+
+When material ambiguity or conflicting terminology blocks this artifact, use `grill-with-docs` for the interview. Read `srs-ai-resolving-requirements-gaps` for the requirements ledger and handoff rules alongside it. Pass existing gap IDs, evidence, and affected artifact IDs; reuse resolved answers. After the interview, resume this skill's output and quality gate. Sufficient inputs proceed directly; persisted records supplement the response format below.
+
 ## Required Inputs
 
 Use available FRs, system context, actors, business rules, workflow notes, assumptions, and stakeholder statements. If a use case or flow needs missing information, do not invent it; list the gap and route it back to FR/context.
@@ -61,6 +65,7 @@ Flow rules:
 - Error flows are validation failures, unavailable dependencies, authorization failures, rule violations, expired state, or other exceptions.
 - Flow steps may mention UI only when needed for clarity; they must describe meaningful actor/system interaction, not raw click sequences.
 - Every alternate or error flow must reference the main-flow step it branches from, unless the flow applies globally.
+- For each UC, include all three flow sections. Where a flow type is unsupported, link a gap; where it is not applicable, state the evidence-backed reason.
 
 ## PlantUML Use-Case Diagram
 
@@ -104,14 +109,4 @@ List gaps whenever a use case, flow, actor, rule, precondition, postcondition, o
 
 ## Quality Gate
 
-Before returning, verify:
-
-- Every UC has a stable UC ID.
-- Every UC links to FR IDs or a `Missing - FR/context gap GAP-###` placeholder.
-- Every provided FR is accounted for as covered by at least one UC, intentionally excluded with a reason, or routed to FR/context gaps.
-- Every UC has a primary actor, trigger, preconditions, and postconditions.
-- Every UC has main, alternate, and error flows, or a gap explains why a flow type is unavailable.
-- Every alternate and error flow references its originating main-flow step unless it applies globally.
-- UC names describe user goals rather than UI steps.
-- PlantUML is fenced as `plantuml`, keeps actors outside the boundary and UCs inside, and avoids include/extend relationships that do not clarify required behavior.
-- Gaps are sent back to FR/context instead of hidden or resolved by invention.
+Before returning, check every UC against the register, detail, and diagram rules. Reconcile diagram actors and UC IDs with the context and register. Complete FR Coverage Accounting for every provided FR and ensure each unsupported element links to a recorded FR/Context Gap.

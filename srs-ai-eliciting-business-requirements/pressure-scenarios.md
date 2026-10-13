@@ -50,4 +50,24 @@ Required correction in skill:
 - Skill requires focused clarification questions before requirements.
 - Skill requires Q/A/conclusion tables and measurable success criteria.
 - Skill requires marking invented details as assumptions.
-- Skill blocks draft requirements from vague input when material fields are missing unless answers are provided or provisional requirements are explicitly authorized.
+- Skill blocks draft requirements from vague input when material fields are missing unless evidence resolves material gaps or provisional requirements are explicitly authorized.
+
+## Regression Scenario: Clarification and drafting branches
+
+Prompt: "We need better onboarding. The sponsor is unavailable and goals are unknown."
+
+Pass criteria:
+- Without provisional drafting authorization, return only the three clarification sections.
+- Every extraction field is known, unknown, or not applicable with a reason.
+- If the user subsequently authorizes a provisional draft, return the full format with unresolved success criteria linked to questions.
+- A partial answer that leaves material gaps does not automatically unlock drafting.
+
+## Regression Scenario: Persist answers between clarification rounds
+
+Prompt: "Help define our onboarding goals; ask me as needed."
+
+Pass criteria:
+- Use the gap-resolution skill for material unknowns; rounds follow upstream prerequisite ordering.
+- Save answered questions before asking dependent questions, while preserving the clarification response sections.
+- Once material gaps resolve, populate the Q/A/conclusion table from those records without repeating the interview.
+- A resolved answer does not automatically approve the business requirements.
